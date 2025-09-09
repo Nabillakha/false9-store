@@ -15,8 +15,8 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.IntegerField()
-    thumbnail = models.URLField(blank=True, null=True)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='update')
+    thumbnail = models.URLField(blank=True, null=True) #boleh kosong
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='jersey')
     is_featured = models.BooleanField(default=False)
     
     def __str__(self):
