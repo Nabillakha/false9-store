@@ -208,7 +208,7 @@ Berikut contoh feedback yang bisa kamu pakai / edit sebelum dikirim:
 
 ## Penutup
 
-README ini dibuat agar direktif tugas dapat dipahami oleh teman atau dosen yang menilai. 
+README ini dibuat agar direktif tugas dapat dipahami oleh teman, asisten doesen dan dosen yang menilai. 
 
 ---
 
