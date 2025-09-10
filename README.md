@@ -16,79 +16,118 @@ Proyek ini merupakan tugas dari mata kuliah Pemrograman Berbasis Platform (PBP).
 
 1. **Membuat proyek Django baru**
 
-    1. **Membuat Direktori & Virtual Environment**
-        Pertama, saya membuat direktori baru khusus untuk proyek ini agar terpisah dari repositori sebelumnya. Dan dilanjutkan dengan pembuatan virtual environment serta mengaktifkannya. Virtual environment penting untuk mengisolasi dependencies proyek ini dari proyek Python lain di komputer. Se, kalau ada perbedaan versi library, tidak akan saling mengganggu.
-        **Membuat folder baru dan masuk ke dalamnya :*
-            ```bash
-                cd ~
-                mkdir false9-store
-                cd false9-store
-            ```
-        **Membuat virtual environment untuk isolasi dependencies dengan :*
-                python -m venv env 
-            ```
-        **Mengaktifkan virtual environment :*
-            ```bash
-                env\Scripts\activate 
-            ```
-    2. **Menambahkan Dependencies**
-        Saya membuat file `requirements.txt` berisi daftar dependencies utama:
-        ```php
-        django
-        gunicorn
-        whitenoise
-        psycopg2-binary
-        requests
-        urllib3
-        python-dotenv
-        ```
-        Masing-masing library punya fungsinya sendiri: Django sebagai framework inti, gunicorn sebagai web server untuk production, whitenoise untuk mengatur file statis, psycopg2-binary sebagai driver PostgreSQL, requests dan urllib3 untuk kebutuhan HTTP request, serta python-dotenv agar proyek bisa membaca environment variables dari file .env.
-        Kemudian instalasinya dilakukan dengan: 
+   1. **Membuat Direktori & Virtual Environment**  
+      Pertama, saya membuat direktori baru khusus untuk proyek ini agar terpisah dari repositori sebelumnya. Lalu membuat virtual environment serta mengaktifkannya. Virtual environment penting untuk mengisolasi dependencies proyek ini dari proyek Python lain di komputer. Jadi kalau ada perbedaan versi library, tidak akan saling mengganggu.
+
+      *Membuat folder baru dan masuk ke dalamnya:*
+      ```bash
+      cd ~
+      mkdir false9-store
+      cd false9-store
+      ```
+
+      *Membuat virtual environment untuk isolasi dependencies:*
+      ```bash
+      python -m venv env
+      ```
+
+      *Mengaktifkan virtual environment:*
+      ```bash
+      env\Scripts\activate
+      ```
+
+   2. **Menambahkan Dependencies**  
+      Saya membuat file `requirements.txt` berisi daftar dependencies utama:
+      ```text
+      django
+      gunicorn
+      whitenoise
+      psycopg2-binary
+      requests
+      urllib3
+      python-dotenv
+      ```
+      Masing-masing library punya fungsinya sendiri: Django sebagai framework inti, gunicorn sebagai web server untuk production, whitenoise untuk mengatur file statis, psycopg2-binary sebagai driver PostgreSQL, requests dan urllib3 untuk kebutuhan HTTP request, serta python-dotenv agar proyek bisa membaca environment variables dari file `.env`.
+
+      Instalasi dilakukan dengan:
+      ```bash
+      pip install -r requirements.txt
+      ```
+
+   3. **Inisiasi Proyek Django**  
+      Saya membuat proyek Django bernama `false9_store` dengan:
+      ```bash
+      django-admin startproject false9_store .
+      ```
+      Titik di akhir perintah berguna supaya struktur file langsung dibuat di root folder, sehingga file `manage.py` tidak berada di dalam subdirektori tambahan. Inisiasi ini menghasilkan file penting seperti `settings.py`, `urls.py`, dan konfigurasi dasar Django.
+
+   4. **Konfigurasi Environment Variables**  
+      Untuk memisahkan pengaturan development dan production, saya menambahkan dua file environment:
+      - `.env` → untuk development lokal (SQLite).  
+      - `.env.prod` → untuk production (PostgreSQL di server PWS).  
+
+      File `.env` berisi `PRODUCTION=False`, sedangkan `.env.prod` berisi kredensial PostgreSQL dari PWS dengan `PRODUCTION=True`. Dengan pemisahan ini, saya tidak perlu mengubah kode setiap kali berpindah environment, cukup mengganti file environment yang dipakai.
+
+   5. **Konfigurasi Settings Django**  
+      Saya memodifikasi `settings.py` supaya bisa membaca konfigurasi dari file `.env` menggunakan python-dotenv.  
+      Selain itu:  
+      - Menambahkan `ALLOWED_HOSTS` agar proyek hanya bisa diakses dari host tertentu (misalnya `localhost` dan `127.0.0.1`).  
+      - Menambahkan variabel `PRODUCTION` untuk menentukan apakah Django akan menggunakan SQLite (development) atau PostgreSQL (production).  
+
+   6. **Migrasi Database & Menjalankan Server**  
+      Setelah konfigurasi selesai, saya melakukan migrasi awal dengan:
+      ```bash
+      python manage.py migrate
+      ```
+      Proses ini membuat struktur database bawaan Django seperti tabel user, autentikasi, dan session.  
+      Lalu menjalankan server lokal dengan:
+      ```bash
+      python manage.py runserver
+      ```
+      Jika membuka `http://localhost:8000` muncul tampilan default Django, artinya proyek berhasil dibuat.
+
+   7. **Menghentikan Server & Menonaktifkan Virtual Environment**  
+      Untuk menghentikan server cukup tekan `Ctrl + C` di terminal, lalu menonaktifkan virtual environment dengan:
+      ```bash
+      deactivate
+      ```
+
+   8. **Membuat Repositori GitHub**  
+      - Membuat repositori baru bernama `false9-store` dengan visibilitas public.  
+      - Inisialisasi repositori lokal dengan:
         ```bash
-            pip install -r requirements.txt
+        git init
         ```
-    3. **Inisiasi Proyek Django**
-        Saya membuat proyek Django bernama false9_store dengan:
-        ```bash
-            django-admin startproject false9_store .
-        ```
-        Titik di akhir perintah berguna supaya struktur file langsung dibuat di root folder, sehingga file `manage.py` tidak berada di dalam subdirektori tambahan. Inisiasi proyek ini menghasilkan file dan folder penting seperti `settings.py`, `urls.py`, serta konfigurasi dasar Django yang menjadi fondasi aplikasi.
-    4. **Konfigurasi Environment Variables**
-        Untuk memisahkan pengaturan development dan production, saya menambahkan dua file environment:
-        **`.env` , untuk development lokal (SQLite).**
-        **`.env.prod` ,  untuk production (PostgreSQL di server PWS).**i
-        Dengan memisahkan konfigurasi ke dalam environment variables,proyek bisa berjalan di dua environment berbeda (development di laptop dan production di server PWS). File `.env` berisi `PRODUCTION=False` sehingga saat development Django akan menggunakan database SQLite, sedangkan `.env.prod` berisi kredensial PostgreSQL dari PWS dengan `PRODUCTION=True`. Dengan pemisahan ini, saya tidak perlu mengubah kode setiap kali berpindah environment, cukup mengganti file environment yang digunakan.
-    5. **Konfigurasi Settings Django**
-        Kemudian saya memodifikasi settings.py supaya bisa membaca konfigurasi dari file `.env` menggunakan python-dotenv. Saya juga menambahkan pengaturan `ALLOWED_HOSTS` agar proyek hanya bisa diakses dari host tertentu, misalnya `localhost` dan `127.0.0.1` saat development. Selain itu, saya menambahkan variabel `PRODUCTION` yang nantinya digunakan Django untuk memilih apakah akan memakai database SQLite (development) atau PostgreSQL (production). Dengan konfigurasi ini, proyek bisa lebih fleksibel dan aman ketika dideploy.
-    6. **Migrasi Database & Menjalankan Server**
-        Setelah konfigurasi selesai, saya melakukan migrasi awal dengan `python manage.py migrate`. Proses ini membuat struktur database bawaan Django seperti tabel user, autentikasi, dan session. Jika migrasi berhasil, artinya koneksi database berjalan dengan baik. Setelah itu, saya menjalankan server lokal dengan`python manage.py runserver` dan membuka `http://localhost:8000` di browser. Munculnya tampilan default Django menjadi tanda bahwa proyek berhasil dibuat.
-    7. **Menghentikan Server & Menonaktifkan Virtual Environment**
-        untuk menghentikan server saya cukup menekan Ctrl+C di terminal, lalu menonaktifkan virtual environment dengan perintah `deactivate`. Menutup environment ini merupakan langkah kecil yang baik agar terminal kembali ke kondisi semula sebelum mengerjakan proyek lain.
-    8. **Membuat Repositori GitHub**
-        **Membuat repositori baru bernama false9-store dengan visibilitas public.*
-        **Inisialisasi repositori lokal dengan `git init.`*
-    9. **Menambahkan .gitignore**
-        **Membuat file .gitignore untuk mengabaikan file yang tidak perlu, seperti db.sqlite3, file log, virtual environment, dan file konfigurasi editor.*
-    10. **Menghubungkan ke GitHub**
-        **Menambahkan remote ke GitHub dengan `git remote add origin ....`*
-        **Membuat branch utama master.*
-        **Menambahkan file, commit, dan push ke GitHub.*
-    11. **Deployment ke PWS**
-        **Login ke PWS*
-        **menggunakan akun SSO UI.*
-        **Membuat proyek baru bernama false9store.*
-        **Menyimpan Project Credentials dan menjalankan Project Command.*
 
-    12.**Menambahkan Environment Variables**
-        **Menyalin isi .env.prod ke tab Environs di PWS.*
-        **Memastikan PRODUCTION=True dan SCHEMA=tugas_individu.*
+   9. **Menambahkan .gitignore**  
+      Membuat file `.gitignore` untuk mengabaikan file yang tidak perlu, seperti `db.sqlite3`, file log, virtual environment, dan file konfigurasi editor.
 
-    13. **Menyesuaikan settings.py**
-        **Menambahkan URL PWS ke dalam ALLOWED_HOSTS.*
+   10. **Menghubungkan ke GitHub**  
+       - Menambahkan remote ke GitHub:
+         ```bash
+         git remote add origin <url-repo>
+         ```
+       - Membuat branch utama `master`.  
+       - Menambahkan file, commit, lalu push ke GitHub.
 
-    14. **Push ke PWS**
-        **Melakukan git add, commit, dan git push pws master.*
-        **Mengecek status deployment hingga Running agar aplikasi bisa diakses melalui URL PWS.*
+   11. **Deployment ke PWS**  
+       - Login ke PWS menggunakan akun SSO UI.  
+       - Membuat proyek baru bernama `false9store`.  
+       - Menyimpan Project Credentials dan menjalankan Project Command.
+
+   12. **Menambahkan Environment Variables**  
+       - Menyalin isi `.env.prod` ke tab *Environs* di PWS.  
+       - Memastikan `PRODUCTION=True` dan `SCHEMA=tugas_individu`.
+
+   13. **Menyesuaikan settings.py**  
+       Menambahkan URL PWS ke dalam `ALLOWED_HOSTS`.
+
+   14. **Push ke PWS**  
+       - Melakukan `git add`, `git commit`, dan:
+         ```bash
+         git push pws master
+         ```
+       - Mengecek status deployment hingga `Running` agar aplikasi bisa diakses melalui URL PWS.
 
 2. **Membuat aplikasi `main`**
 
