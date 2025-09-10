@@ -124,7 +124,6 @@ Proyek ini merupakan tugas dari mata kuliah Pemrograman Berbasis Platform (PBP).
 
 ## Bagan request-response dan keterkaitan berkas (urls.py, views.py, models.py, HTML)
 
-    Berikut bagan sederhana alur request-response (Mermaid):
 ```scss
     [Client / Browser]
         │
