@@ -147,16 +147,6 @@ Proyek ini merupakan tugas dari mata kuliah Pemrograman Berbasis Platform (PBP).
  [Response kembali ke Client]
 ```
 
-```mermaid
-flowchart LR
-  Browser[Client Browser] -->|GET /| ProjectURLs(myproject/urls.py)
-  ProjectURLs -->|include('main.urls')| AppURLs(main/urls.py)
-  AppURLs -->|mapped to| ViewFunc(views.home)
-  ViewFunc -->|query (opsional)| Models(main.models.Product)
-  ViewFunc -->|render| Template(main/home.html)
-  Template -->|HTML response| Browser
-```
-
 **Penjelasan singkat:**
 
 * `urls.py` berfungsi sebagai peta jalan. Request yang masuk akan diarahkan ke fungsi tertentu di `views.py`
@@ -182,11 +172,12 @@ flowchart LR
 
 ## Cara kerja migrasi database di Django
 
-    Migrasi di Django adalah cara untuk menyamakan kode model Python dengan struktur database.
-**Saat menulis/ubah model di models.py, Django belum langsung mengubah database.*
-**Dengan perintah python manage.py makemigrations, Django membuat file migrasi (seperti “catatan perubahan”).*
-**Dengan python manage.py migrate, Django mengeksekusi file migrasi itu untuk membuat atau mengubah tabel di database.*
-**Proses ini bisa dilakukan berkali-kali sesuai perubahan model, jadi database selalu sinkron dengan kode*
+Migrasi di Django adalah cara untuk menyamakan kode model Python dengan struktur database:
+
+1. Saat menulis/ubah model di `models.py`, Django belum langsung mengubah database.  
+2. Dengan perintah `python manage.py makemigrations`, Django membuat file migrasi (seperti “catatan perubahan”).  
+3. Dengan `python manage.py migrate`, Django mengeksekusi file migrasi itu untuk membuat atau mengubah tabel di database.  
+4. Proses ini bisa dilakukan berkali-kali sesuai perubahan model, jadi database selalu sinkron dengan kode.  
 
 ## Kenapa Django sering dipilih sebagai permulaan belajar framework web?
 
