@@ -255,3 +255,5 @@ README ini dibuat agar direktif tugas dapat dipahami oleh teman, asisten doesen 
 2. membuat 2 fungsi yang dapat menampilkan data berdasarkan ID dari model dalam format xml dan json.
 agar dapat di akses di URL nya oleh pengguna maka saya daftarkan URL dg mngedit di file urls.py yang berada di direktori main (biar nggak notfound halamannya) 
 3. mengimplementasikan skeleton sbg kerangka views
+4. membuat form input data agar kita dapat menambah data
+5. membuat halaman utama menampilkan produk, dan menambahkan button add dan detail dengan daapat render ke halaman add product dan detail produk

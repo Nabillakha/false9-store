@@ -31,6 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1","alya-nabilla-false9store.pbp.cs.ui.ac.id"]
 
+CSRF_TRUSTED_ORIGINS = [ 
+    'http://alya-nabilla-false9store.pbp.cs.ui.ac.id',
+]
 # Application definition
 
 INSTALLED_APPS = [

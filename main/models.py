@@ -18,9 +18,10 @@ class Product(models.Model):
     price = models.IntegerField()
     thumbnail = models.URLField(blank=True, null=True) #boleh kosong
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='jersey')
-    is_featured = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False) #apakah produk ini termasuk produk unggulan
     sold = models.IntegerField(default=0)
     stock = models.IntegerField(default=0)
+    view = models.IntegerField(default=0)
     
     def __str__(self):
         return self.name
@@ -28,6 +29,19 @@ class Product(models.Model):
     @property
     def is_product_bestseller(self):
         return self.sold > 750
+    
+    @property
+    def is_product_available(self):
+        return self.stock > 0
+    
+    @property
+    def is_product_is_trending(self):
+        return self.view > 500
+    
+    @property
+    def increment_views(self):
+        self.view += 1
+        self.save()
         
     def increment_solds(self):
         self.sold += 1
