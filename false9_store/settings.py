@@ -58,7 +58,7 @@ ROOT_URLCONF = 'false9_store.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'], #menambahkan direktori templates, 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

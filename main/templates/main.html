@@ -1,8 +1,16 @@
-<h1>False 9 Store</h1>
+{% extends 'base.html' %}
+ {% block content %}
+ <h1>False9 Store</h1>
 
-<h5>NPM: </h5>
-<p>{{ npm }}</p>
-<h5>Name: </h5>
-<p>{{ name }}<p>
-<h5>Class: </h5>
-<p>{{ class }}</p> <!-- Ubah sesuai dengan kelas kamu -->
+ <h4>Welcome to False9 Store</h4>
+
+ <h5>NPM: </h5>
+ <p>{{ npm }}<p>
+
+ <h5>Name:</h5>
+ <p>{{ name }}</p>
+
+ <h5>Class:</h5>
+ <p>{{ class }}</p>
+
+ {% endblock content %}

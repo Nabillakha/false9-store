@@ -250,3 +250,8 @@ README ini dibuat agar direktif tugas dapat dipahami oleh teman, asisten doesen 
 
 ---
 
+## Catatan tugas 3
+1. membuat 2 fungsi yang dapat menampilkan data dari model dalam format xml dan json.
+2. membuat 2 fungsi yang dapat menampilkan data berdasarkan ID dari model dalam format xml dan json.
+agar dapat di akses di URL nya oleh pengguna maka saya daftarkan URL dg mngedit di file urls.py yang berada di direktori main (biar nggak notfound halamannya) 
+3. mengimplementasikan skeleton sbg kerangka views
