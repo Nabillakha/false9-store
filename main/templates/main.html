@@ -1,53 +1,57 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>False9 Store</h1>
-  <h4>Welcome to False9 Store</h4>
+    <h1>False9 Store</h1>
+    <h4>Welcome to False9 Store</h4>
 
-  <h5>NPM:</h5>
-  <p>{{ npm }}</p>
+    <h5>NPM:</h5>
+    <p>{{ npm }}</p>
 
-  <h5>Name:</h5>
-  <p>{{ name }}</p>
+    <h5>Name:</h5>
+    <p>{{ name }}</p>
 
-  <h5>Class:</h5>
-  <p>{{ class }}</p>
+    <h5>Class:</h5>
+    <p>{{ class }}</p>
 
-  <a href="{% url 'main:add_product' %}">
+    <a href="{% url 'main:add_product' %}">
     <button>+ Add Product</button>
-  </a>
+    </a>
 
-  <hr>
+    <hr>
 
-  {% for product in products_list %}
+    {% if not product_list %}
+    <p>Oopss.. Belum ada produk yang tersedia</p>
+    {% else %}
+
+    {% for product in products_list %}
     <div style="margin-bottom: 24px;">
-      <h2>{{ product.name }}</h2>
+        <h2>{{ product.name }}</h2>
 
-      <p>
+        <p>
         <b>{{ product.get_category_display }}</b>
         {% if product.is_featured %} | <b>Featured</b>{% endif %}
         {% if product.is_product_bestseller %} | <b>Bestseller</b>{% endif %}
         {% if product.is_product_trending %} | <b>Trending</b>{% endif %}
         | Views: {{ product.view }}
-      </p>
+        </p>
 
-      {% if product.thumbnail %}
+        {% if product.thumbnail %}
         <div style="margin: 8px 0;">
-          <img src="{{ product.thumbnail }}" alt="thumbnail" width="180" style="border-radius: 6px;">
+            <img src="{{ product.thumbnail }}" alt="thumbnail" width="180" style="border-radius: 6px;">
         </div>
-      {% endif %}
+        {% endif %}
 
-      <p><b>Price:</b> Rp {{ product.price }}</p>
-      <p><b>Sold:</b> {{ product.sold }}</p>
-      <p><b>Stock:</b> {{ product.stock }}</p>
-      <p>{{ product.description|truncatechars:15 }}</p>
+        <p><b>Price:</b> Rp {{ product.price }}</p>
+        <p><b>Sold:</b> {{ product.sold }}</p>
+        <p><b>Stock:</b> {{ product.stock }}</p>
+        <p>{{ product.description|truncatechars:15 }}</p>
 
-      <p>
+        <p>
         <a href="{% url 'main:show_product' product.id %}">
-          <button>Detail</button>
+            <button>Detail</button>
         </a>
-      </p>
+        </p>
     </div>
     <hr>
-  {% endfor %}
+    {% endfor %}
 {% endblock content %}
