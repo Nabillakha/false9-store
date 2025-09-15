@@ -244,15 +244,82 @@ Berikut contoh feedback yang bisa kamu pakai / edit sebelum dikirim:
   * Memberikan sedikit tips best practice agar mahasiswa tidak hanya mengikuti langkah, tapi juga mengerti alasannya.
 ---
 
+# Tugas 3
+
+## Pentingnya Data Delivery dalam Pengimplementasian Platform
+Data delivery sangat penting dalam pengimplementasian sebuah platform karena data tidak hanya perlu disimpan, tetapi juga harus dikirim dan disajikan dengan aman, cepat, reliabel, dan konsisten kepada pengguna maupun komponen lain yang membutuhkan. Mekanisme ini memastikan informasi sampai ke tujuan yang tepat, tetap sinkron antar pengguna, terjaga dari gangguan atau kebocoran, efisien dalam penggunaan sumber daya, serta mendukung skalabilitas ketika platform berkembang. Tanpa data delivery, platform hanya menjadi tempat penyimpanan pasif tanpa nilai interaktif. Contohnya pada tugas kali ini, data tidak hanya diakses oleh satu program saja, sehingga keberadaan data delivery menjadi sangat krusial.
+
+## XML vs JSON: Mana yang Lebih Baik?
+Menurut saya, JSON lebih baik dibandingkan XML karena strukturnya lebih sederhana, modern, dan tidak membutuhkan banyak tag seperti XML. JSON juga lebih mudah dibaca dan dipahami oleh programmer, sekaligus memiliki proses parsing yang lebih cepat karena dapat langsung diproses oleh hampir semua bahasa pemrograman tanpa library tambahan. Inilah yang membuat JSON lebih populer dibanding XML.  
+Meskipun begitu, XML masih digunakan pada sistem lama atau aplikasi yang membutuhkan fitur kompleks seperti schema, namespace, dan validasi dokumen. Namun, untuk kebutuhan web maupun mobile yang menuntut efisiensi dan kecepatan, JSON jauh lebih unggul dan lebih banyak digunakan.
+
+## Fungsi Method `is_valid()` pada Form Django
+Di Django, method `is_valid()` pada form digunakan untuk memeriksa apakah data yang dimasukkan sesuai dengan aturan validasi yang telah ditentukan. Jika semua field sudah benar sesuai tipe data, panjang karakter, format (misalnya email valid), maupun aturan khusus lainnya, maka `is_valid()` akan mengembalikan `True`. Jika terdapat kesalahan, method ini akan mengembalikan `False` dan detail error dapat diakses melalui `form.errors`.  
+Method ini penting untuk mencegah data yang tidak valid masuk ke database serta memberikan feedback otomatis kepada pengguna ketika terjadi kesalahan input, sehingga data yang disimpan tetap aman, bersih, dan sesuai standar.
+
+## Pentingnya `csrf_token` pada Form Django
+`csrf_token` di Django digunakan untuk mencegah serangan **Cross-Site Request Forgery (CSRF)**, yaitu serangan ketika penyerang mencoba memanipulasi user agar tanpa sadar mengirimkan request berbahaya ke server (misalnya transfer uang atau mengubah password) dengan memanfaatkan sesi login yang masih aktif.  
+
+Jika kita tidak menambahkan `csrf_token` pada form, maka form tersebut rentan terhadap serangan CSRF. Server tidak bisa membedakan apakah request benar-benar berasal dari form sah di aplikasi kita atau dari situs berbahaya yang dibuat oleh penyerang.  
+Penyerang dapat memanfaatkan celah ini dengan cara membuat halaman berisi form tersembunyi yang otomatis mengirim request ke server kita. Jika user sedang login, request tersebut akan dieksekusi dengan hak akses user tersebut tanpa sepengetahuan mereka.
+
+## Implementasi Checklist Step-by-Step
+
+1. **Mengimplementasikan skeleton sebagai kerangka views**  
+   Membuat berkas `base.html` di dalam direktori `templates` pada root project. File ini digunakan sebagai template dasar yang nantinya akan diwarisi oleh halaman-halaman lain agar konsisten dalam tampilan.
+
+2. **Membuat 4 fungsi untuk mengembalikan data model dalam format XML dan JSON**  
+   Menambahkan fungsi `show_xml`, `show_json`, `show_xml_by_id`, dan `show_json_by_id` pada `views.py` di direktori `main`.  
+   - Fungsi `show_xml` dan `show_json` mengembalikan seluruh data produk.  
+   - Fungsi `show_xml_by_id` dan `show_json_by_id` menerima parameter `product_id` untuk mengambil data berdasarkan ID.  
+   Data kemudian diserialisasi menjadi format XML atau JSON sebelum dikembalikan sebagai response.
+
+3. **Melakukan routing URL untuk keempat fungsi di atas**  
+   Pada `urls.py` di direktori `main`, import fungsi-fungsi tersebut lalu menambahkan path pada `urlpatterns`.
+
+4. **Membuat halaman utama untuk menampilkan data dengan tombol Add dan Detail**  
+   - Pada fungsi `show_main` ditambahkan data `product_list` berisi semua produk, kemudian diteruskan ke `context`.  
+   - Pada `main.html`, data produk ditampilkan dengan loop (`{% for product in product_list %}`).  
+   - Ditambahkan tombol **Add** untuk menambahkan produk baru dan tombol **Detail** untuk melihat detail tiap produk.
+
+5. **Membuat halaman form untuk menambahkan produk baru**  
+   - Membuat `forms.py` di direktori `main` dengan class `ProductForm` yang mendefinisikan field yang harus diisi user.  
+   - Menambahkan fungsi `add_product` pada `views.py` untuk menampilkan dan memproses form.  
+   - Membuat template `add_product.html` untuk menampilkan form tersebut, dengan menyertakan `{% csrf_token %}` sebagai keamanan.  
+   - Menambahkan path ke fungsi `add_product` pada `urls.py`.  
+   - Pada `main.html`, tombol **Add** diarahkan ke halaman form menggunakan `{% url 'main:add_product' %}`.
+
+6. **Membuat halaman detail produk**  
+   - Membuat `product_detail.html` di `main/templates` untuk menampilkan informasi detail produk.  
+   - Menambahkan fungsi `show_product` pada `views.py` yang menerima `product_id`, mengambil objek produk sesuai ID, dan me-render halaman detail.  
+   - Menambahkan path `show_product` pada `urls.py`.  
+   - Pada `main.html`, tombol **Detail** ditambahkan atribut `href="{% url 'main:show_product' product.id %}"`.
+
+7. **Menambahkan domain deployment pada CSRF Trusted Origins**  
+   Pada `settings.py`, menambahkan domain deployment project PWS ke dalam `CSRF_TRUSTED_ORIGINS`. Seperti dibawah:  
+   ```python
+   CSRF_TRUSTED_ORIGINS = [ 
+    'http://alya-nabilla-false9store.pbp.cs.ui.ac.id',
+   ]
+
+## Hasil akses URL pada postman
+
+![alt text](images/all-product-xml.png)
+![alt text](images/all-product-json.png)
+![alt text](images/specific-product-xml.png)
+![alt text](images/specific-product-json.png)
+
+---
+
 ## Penutup
 
 README ini dibuat agar direktif tugas dapat dipahami oleh teman, asisten doesen dan dosen yang menilai. 
 
 ---
 
-## Catatan tugas 3
+## Catatan tugas 3    
 1. membuat 2 fungsi yang dapat menampilkan data dari model dalam format xml dan json.
-2. membuat 2 fungsi yang dapat menampilkan data berdasarkan ID dari model dalam format xml dan json.
+2. membuat 2 fungsi yang dapat menampilkan data berdasarkan ID dari model dalam format xml dan json. 
 agar dapat di akses di URL nya oleh pengguna maka saya daftarkan URL dg mngedit di file urls.py yang berada di direktori main (biar nggak notfound halamannya) 
 3. mengimplementasikan skeleton sbg kerangka views
 4. membuat form input data agar kita dapat menambah data
