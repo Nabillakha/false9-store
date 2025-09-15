@@ -38,7 +38,6 @@ class Product(models.Model):
     def is_product_is_trending(self):
         return self.view > 500
     
-    @property
     def increment_views(self):
         self.view += 1
         self.save()

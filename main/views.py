@@ -25,12 +25,10 @@ def show_xml(request):
 
 def show_xml_by_id(request, product_id): 
     try:
-        data = Product.objects.get(pk=product_id) #mengambil 1 data dari model Product berdasarkan ID (primary key)
+        data = Product.objects.filter(pk=product_id) #mengambil 1 data dari model Product berdasarkan ID (primary key)
         data_xml = serializers.serialize("xml", data) #mengubah data menjadi format XML
         return HttpResponse(data_xml, content_type="application/xml") #mengembalikan data dalam format XML
-    except ValueError: #jika product_id bukan integer
-        return HttpResponse("<h1>Invalid ID</h1>", content_type="text/html", status=400) #mengembalikan pesan ID tidak valid dan memuat halaman lain
-    except data.DoesNotExist: #jika data tidak ditemukan
+    except Product.DoesNotExist: #jika data tidak ditemukan
         return HttpResponse("<h1>Data not found</h1>", content_type="text/html", status=404) #return pesan data tidak ditemukan dan memuat halaman lain
 
 def show_json(request):
@@ -43,9 +41,7 @@ def show_json_by_id(request, product_id):
         data = Product.objects.get(pk=product_id) #mengambil 1 data dari model Product berdasarkan ID (primary key)
         data_json = serializers.serialize("json", [data]) #mengubah data menjadi format JSON, data harus dalam bentuk list
         return HttpResponse(data_json, content_type="application/json") #mengembalikan data dalam format JSON
-    except ValueError: #jika product_id bukan integer
-        return JsonResponse({"error": "Invalid ID"}, status=400) #mengembalikan pesan ID tidak valid dalam format JSON 
-    except data.DoesNotExist: #jika data tidak ditemukan
+    except Product.DoesNotExist: #jika data tidak ditemukan
         return JsonResponse({"error": "Data not found"}, status=404) #mengembalikan pesan data tidak ditemukan dalam format JSON
 
 def add_product(request):
@@ -61,6 +57,7 @@ def add_product(request):
 
 def show_product(request, product_id):
     product  = get_object_or_404(Product, pk=product_id) #mengambil 1 data dari model Product berdasarkan ID (primary key), jika data tidak ditemukan maka akan menampilkan halaman 404
+    product.increment_views() #menambah jumlah view setiap kali halaman diakses
     context = {
         'product': product
     }
