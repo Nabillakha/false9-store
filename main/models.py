@@ -10,7 +10,8 @@ class Product(models.Model):
         ('accessories', 'Accessories'),  # sarung tangan, shin guard, headband
         ('ball', 'Football'),            # bola official & latihan
         ('lifestyle', 'Lifestyle'),      # hoodie, tshirt, casual wear
-        ('collectibles', 'Collectibles') # scarf, poster, merchandise
+        ('collectibles', 'Collectibles'),# scarf, poster, merchandise
+        ('others', 'Others'),            # kategori lain-lain
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
