@@ -12,6 +12,9 @@
 
 Proyek ini merupakan tugas dari mata kuliah Pemrograman Berbasis Platform (PBP). Aplikasi yang dikembangkan bernama False9 Store, yaitu sebuah aplikasi Football Shop sederhana berbasis Django yang saat ini masih dalam tahap pengembangan.
 
+---
+## Tugas 2 
+
 ## Implementasi proyek step-by-step
 
 1. **Membuat proyek Django baru**
@@ -229,17 +232,12 @@ Beberapa alasan yang membuat Django cocok sebagai starting-point:
 
 ## Feedback untuk asisten dosen (Tutorial 1)
 
-Berikut contoh feedback yang bisa kamu pakai / edit sebelum dikirim:
-
 * Hal-hal yang sudah baik:
-
   * Penjelasan langkah-langkah sangat sistematis dan ada contoh potongan kode.
   * Checklist tugas jelas dan terukur.
 
 * Hal yang bisa diperbaiki:
-.
   * Diberi lebih banyak contoh praktis (misalnya contoh views dengan konteks yang lebih variatif).
-
   * Disediakan ringkasan materi di akhir tutorial agar mudah direview.
   * Memberikan sedikit tips best practice agar mahasiswa tidak hanya mengikuti langkah, tapi juga mengerti alasannya.
 ---
@@ -309,6 +307,14 @@ Penyerang dapat memanfaatkan celah ini dengan cara membuat halaman berisi form t
 ![alt text](images/specific-product-xml.png)
 ![alt text](images/specific-product-json.png)
 
+## Feedback untuk asisten dosen (Tutorial 2)
+
+
+* Hal-hal yang sudah baik:
+  - [ ] Tambahkan feedback
+* Hal yang bisa diperbaiki:
+  - [ ] Tambahkan feedback
+
 ---
 
 ## Penutup
@@ -316,11 +322,3 @@ Penyerang dapat memanfaatkan celah ini dengan cara membuat halaman berisi form t
 README ini dibuat agar direktif tugas dapat dipahami oleh teman, asisten doesen dan dosen yang menilai. 
 
 ---
-
-## Catatan tugas 3    
-1. membuat 2 fungsi yang dapat menampilkan data dari model dalam format xml dan json.
-2. membuat 2 fungsi yang dapat menampilkan data berdasarkan ID dari model dalam format xml dan json. 
-agar dapat di akses di URL nya oleh pengguna maka saya daftarkan URL dg mngedit di file urls.py yang berada di direktori main (biar nggak notfound halamannya) 
-3. mengimplementasikan skeleton sbg kerangka views
-4. membuat form input data agar kita dapat menambah data
-5. membuat halaman utama menampilkan produk, dan menambahkan button add dan detail dengan daapat render ke halaman add product dan detail produk
