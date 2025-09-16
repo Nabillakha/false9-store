@@ -13,7 +13,7 @@
 Proyek ini merupakan tugas dari mata kuliah Pemrograman Berbasis Platform (PBP). Aplikasi yang dikembangkan bernama False9 Store, yaitu sebuah aplikasi Football Shop sederhana berbasis Django yang saat ini masih dalam tahap pengembangan.
 
 ---
-## Tugas 2 
+# Tugas 2 
 
 ## Implementasi proyek step-by-step
 
@@ -309,11 +309,11 @@ Penyerang dapat memanfaatkan celah ini dengan cara membuat halaman berisi form t
 
 ## Feedback untuk asisten dosen (Tutorial 2)
 
-
 * Hal-hal yang sudah baik:
-  - [ ] Tambahkan feedback
+   * Pembuatan tutorial sudah terstruktur dan rapi, sehingga mudah diikuti.
 * Hal yang bisa diperbaiki:
-  - [ ] Tambahkan feedback
+   * Disediakan ringkasan materi dan alur kerja di akhir tutorial agar mudah direview.
+   * Memberikan sedikit tips best practice agar mahasiswa tidak hanya mengikuti langkah, tapi juga mengerti alasannya.
 
 ---
 
