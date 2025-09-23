@@ -28,5 +28,11 @@
   <p><b>Sold:</b> {{ product.sold }}</p>
   <p><b>Stock:</b> {{ product.stock }}</p>
 
+  {% if product.user %}
+      <p><b>Seller:</b> {{ product.user.username }}</p>
+  {% else %}
+      <p><b>Seller:</b> Anonymous</p>
+  {% endif %}
+
   <p style="margin-top: 20px;">{{ product.description }}</p>
 {% endblock content %}

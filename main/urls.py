@@ -1,5 +1,5 @@
 from django.urls import path
-from main.views import show_main, show_xml, show_xml_by_id, show_json, show_json_by_id,add_product,show_product #import views yang sudah dibuat
+from main.views import show_main, show_xml, show_xml_by_id, show_json, show_json_by_id,add_product,show_product, register , login_user, logout_user#import views yang sudah dibuat
 
 app_name = 'main'
 
@@ -11,4 +11,7 @@ urlpatterns = [
     path('json/', show_json, name='show_json'), #menampilkan semua data dalam format JSON
     path('add-product/', add_product, name='add_product'), #menambahkan data baru
     path('product/<str:product_id>/', show_product, name='show_product'), #menampilkan detail produk berdasarkan ID
+    path('register/', register, name='register'), #menampilkan halaman register
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),     
 ]

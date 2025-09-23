@@ -316,6 +316,45 @@ Penyerang dapat memanfaatkan celah ini dengan cara membuat halaman berisi form t
    * Memberikan sedikit tips best practice agar mahasiswa tidak hanya mengikuti langkah, tapi juga mengerti alasannya.
 
 ---
+# Tugas 4
+
+# 🔐 Django Authentication & Security
+
+## 1. Django AuthenticationForm
+`AuthenticationForm` adalah form bawaan Django yang digunakan untuk proses login user. Form ini otomatis memvalidasi **username** dan **password** dengan database.
+
+### ✅ Kelebihan
+- Built-in, tidak perlu membuat form login dari nol.
+- Terintegrasi dengan `django.contrib.auth`.
+- Sudah ada validasi keamanan (password hashing).
+
+### ⚠️ Kekurangan
+- Hanya mendukung field bawaan (username & password).
+- Tampilan default sederhana → perlu kustomisasi untuk UI/UX.
+
+---
+
+## 2. Autentikasi vs Otorisasi
+
+- **Autentikasi (Authentication):** proses memverifikasi identitas user.  
+  Contoh: login dengan username & password.  
+- **Otorisasi (Authorization):** menentukan hak akses user setelah login.  
+  Contoh: admin bisa akses dashboard, user biasa tidak.
+
+### 🔧 Implementasi di Django
+- **Authentication:** `django.contrib.auth` (login, logout, password hashing, session-based login).  
+- **Authorization:** sistem permissions (`is_staff`, `is_superuser`, custom permission) dan decorators seperti:
+  ```python
+  from django.contrib.auth.decorators import login_required, permission_required
+
+  @login_required
+  def dashboard(request):
+      return render(request, "dashboard.html")
+
+  @permission_required("app.can_view_report")
+  def report(request):
+      return render(request, "report.html")
+
 
 ## Penutup
 

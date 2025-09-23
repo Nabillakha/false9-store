@@ -14,9 +14,22 @@
     <p>{{ class }}</p>
 
     <a href="{% url 'main:add_product' %}">
-    <button>+ Add Product</button>
+        <button>+ Add Product</button>
     </a>
 
+    <a href="{% url 'main:logout' %}">
+        <button>Logout</button>
+    </a>
+
+    <h5>My Account : {{username_login}} </h5>
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+
+    <a href="?filter=all">
+        <button type="button">All Products</button>
+    </a>
+    <a href="?filter=my">
+        <button type="button">My Products</button>
+    </a> 
     <hr>
 
     {% if not products_list %}
@@ -43,7 +56,7 @@
             <p><b>Price:</b> Rp {{ product.price }}</p>
             <p><b>Sold:</b> {{ product.sold }}</p>
             <p><b>Stock:</b> {{ product.stock }}</p>
-            <p>{{ product.description|truncatechars:15 }}</p>
+            <p>{{ product.description|truncatechars:50}}</p>
 
             <p>
             <a href="{% url 'main:show_product' product.id %}">
