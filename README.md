@@ -474,6 +474,20 @@ def show_main(request):
    ....
 ```
 
+# User 1
+## all product tampil
+![alt text](<localhost_8000_(Nest Hub Max).png>)
+## filter my product
+![alt text](<localhost_8000__filter=my(Nest Hub Max).png>)
+
+# User 2
+## all product tampil
+![alt text](<localhost_8000_(Nest Hub Max) (1).png>)
+## filter my product
+![alt text](<localhost_8000__filter=my(Nest Hub Max) (1).png>)
+
+---
+
 ## Penutup
 
 README ini dibuat agar direktif tugas dapat dipahami oleh teman, asisten doesen dan dosen yang menilai. 
