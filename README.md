@@ -657,6 +657,7 @@ Tombol-tombol sulit ditekan.
 Contoh Tampilan Tidak Responsif:
 ![c:\Users\Alya\Downloads\academic.ui.ac.id_main_Authentication_(iPad Mini).png](<academic.ui.ac.id_main_Authentication_(iPad Mini).png>)
 ![alt text](<academic.ui.ac.id_main_Authentication_(iPhone 14 Pro Max).png>)
+![alt text](image.png)
 
 Penyebab: tidak adanya media queries dan penggunaan ukuran tetap, sehingga tidak bisa menyesuaikan dengan ukuran layar berbeda.
 
