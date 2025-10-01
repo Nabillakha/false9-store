@@ -12,14 +12,16 @@ from django.urls import reverse
 
 # Create your views here.
 @login_required(login_url='/login')
-def show_main(request):
+def show_main(request, category=None):
     
     filter_type = request.GET.get("filter", "all")  # default 'all'
 
-    if filter_type == "all":
+    if category:
+        products_list = Product.objects.filter(category=category)
+    elif filter_type == "all":
         products_list = Product.objects.all()
     else:
-        products_list = Product.objects.filter(user=request.user) #mengambil semua data dari model Product
+        products_list = Product.objects.filter(user=request.user)
 
     context = {
         'npm' : '2406358094',
@@ -27,7 +29,9 @@ def show_main(request):
         'class': 'PBP B',
         'products_list': products_list,
         'last_login': request.COOKIES.get('last_login', 'Never'),
-        'username_login' : request.user.username
+        'username_login' : request.user.username,
+        "categories": Product.CATEGORY_CHOICES,
+        "selected_category": category,
     }
 
     return render(request, "main.html", context)
@@ -111,3 +115,21 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('main:login')
+
+def edit_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    form = ProductForm(request.POST or None, instance=product)
+    if form.is_valid() and request.method == 'POST':
+        form.save()
+        return redirect('main:show_main')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))

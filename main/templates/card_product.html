@@ -1,0 +1,81 @@
+{% load static %}
+<article class="bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
+  <!-- Thumbnail -->
+  <div class="relative aspect-[4/3] overflow-hidden">
+    {% if product.thumbnail %}
+      <img src="{{ product.thumbnail }}" alt="{{ product.name }}"
+           class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+    {% else %}
+      <div class="w-full h-full bg-gray-200"></div>
+    {% endif %}
+
+    <!-- Category Badge -->
+    <div class="absolute top-3 left-3">
+      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-600 text-white shadow">
+        {{ product.get_category_display }}
+      </span>
+    </div>
+
+    <!-- Status Badges -->
+    <div class="absolute top-3 right-3 flex flex-col space-y-1">
+      {% if product.is_featured %}
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-yellow-100 text-yellow-800 shadow-sm">
+          ⭐ Featured
+        </span>
+      {% endif %}
+      {% if product.is_product_bestseller %}
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-purple-100 text-purple-800 shadow-sm">
+          🏆 Bestseller
+        </span>
+      {% endif %}
+      {% if product.is_product_is_trending %}
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-red-100 text-red-800 shadow-sm">
+          🔥 Trending
+        </span>
+      {% endif %}
+      {% if product.is_product_available %}
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-blue-100 text-blue-800 shadow-sm">
+          ✅ Available
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-5 flex flex-col h-full">
+    <!-- Views, Stock, Sold -->
+    <div class="flex flex-wrap items-center text-xs text-gray-500 mb-3 gap-3">
+      <span class="flex items-center space-x-1"><i class="fa fa-eye"></i> <span>{{ product.view }} views</span></span>
+      <span class="flex items-center space-x-1"><i class="fa fa-shopping-bag"></i> <span>Sold: {{ product.sold }}</span></span>
+      <span class="flex items-center space-x-1"><i class="fa fa-box"></i> <span>Stock: {{ product.stock }}</span></span>
+    </div>
+
+    <!-- Product Title -->
+    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-snug">
+      <a href="{% url 'main:show_product' product.id %}" class="hover:text-green-600 transition-colors">
+        {{ product.name }}
+      </a>
+    </h3>
+
+    <!-- Description Preview -->
+    <p class="text-gray-600 text-sm line-clamp-3 mb-3">
+      {{ product.description|truncatewords:18 }}
+    </p>
+
+    <!-- Price -->
+    <p class="text-green-700 font-extrabold text-xl mb-4">Rp {{ product.price }}</p>
+
+    <!-- Action Buttons -->
+    {% if user.is_authenticated and product.user == user %} 
+    <div class="flex items-center justify-between pt-4 border-t border-gray-100"> 
+        <a href="{% url 'main:show_product' product.id %}" class="text-green-600 hover:text-green-700 font-medium text-sm transition-colors"> View Details </a> 
+        <div class="flex space-x-2"> 
+            <a href="{% url 'main:edit_product' product.id %}" class="text-gray-600 hover:text-gray-700 text-sm transition-colors"> Edit </a> 
+            <a href="{% url 'main:delete_product' product.id %}" class="text-red-600 hover:text-red-700 text-sm transition-colors"> Delete </a> 
+        </div> 
+    </div> {% else %} <div class="pt-4 border-t border-gray-100"> 
+        <a href="{% url 'main:show_product' product.id %}" class="text-green-600 hover:text-green-700 font-medium text-sm transition-colors"> View Details → </a> 
+    </div> {% endif %}
+    </div>
+  </div>
+</article>

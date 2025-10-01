@@ -3,7 +3,6 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     CATEGORY_CHOICES = [
@@ -19,13 +18,13 @@ class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField()
-    price = models.IntegerField()
+    price = models.PositiveIntegerField()
     thumbnail = models.URLField(blank=True, null=True) #boleh kosong
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='jersey')
     is_featured = models.BooleanField(default=False) #apakah produk ini termasuk produk unggulan
-    sold = models.IntegerField(default=0)
-    stock = models.IntegerField(default=0)
-    view = models.IntegerField(default=0)
+    sold = models.PositiveIntegerField(default=0)
+    stock = models.PositiveIntegerField(default=0)
+    view = models.PositiveIntegerField(default=0)
     
     def __str__(self):
         return self.name

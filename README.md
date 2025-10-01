@@ -488,6 +488,190 @@ def show_main(request):
 
 ---
 
+# Tugas 5
+## Desain Web menggunakan HTML, CSS dan Framework CSS
+
+
+## Checklist (yang sudah diimplementasikan)
+
+1. Fungsi **edit product** (`edit_product`) — form prefilled, validasi, redirect setelah sukses.
+2. Fungsi **delete product** (`delete_product`) — hanya dapat dipanggil oleh pemilik/owner pada UI; di view menghapus record dan redirect.
+3. Kustomisasi desain untuk halaman: login, register, add product, edit product, detail product.
+4. Daftar product (catalog) memakai **card** responsive; menampilkan empty-state (gambar + pesan) bila belum ada product.
+5. Setiap card memiliki dua tombol: **Edit** dan **Delete** (hanya visible untuk owner).
+6. Navbar responsif yang otomatis membuat tombol kategori berdasarkan `Product.CATEGORY_CHOICES` dan tombol **Add Product**.
+7. Filter kategori bekerja via route `/category/<kategori>/` dan menampilkan produk hanya dari kategori tersebut.
+8. Implementasi small JS untuk hamburger mobile menu.
+9. Styling form (file CSS kustom `.form-style`), badge, dan efek hover (gambar zoom).
+10. Dokumentasi dan langkah commit ke GitHub.
+
+
+## Penjelasan Implementasi (ringkas + file terkait)
+
+### 1. Edit & Delete product
+
+**File**: `views.py`
+
+* `edit_product(request, id)` menggunakan `ProductForm(instance=product)` — menyimpan saat POST.
+* `delete_product(request, id)` memakai `get_object_or_404` lalu `product.delete()` dan `redirect`.
+
+Contoh snippet (views):
+
+```python
+def edit_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    form = ProductForm(request.POST or None, instance=product)
+    if form.is_valid() and request.method == 'POST':
+        form.save()
+        return redirect('main:show_main')
+    return render(request, 'edit_product.html', {'form': form})
+
+def delete_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    product.delete()
+    return redirect('main:show_main')
+```
+
+### 2. Navbar dinamis & filter kategori
+
+**File**: `urls.py` -> tambahkan route:
+
+```python
+path('category/<str:category>/', show_main, name='filter_category')
+```
+
+**File**: `views.py` -> ubah `show_main` untuk menerima `category=None`:
+
+```python
+def show_main(request, category=None):
+    if category:
+        products_list = Product.objects.filter(category=category)
+    else:
+        products_list = Product.objects.all()
+    context = { 'products_list': products_list, 'categories': Product.CATEGORY_CHOICES, 'selected_category': category }
+    return render(request, 'main.html', context)
+```
+
+**File**: `base.html` atau partial navbar — loop kategori:
+
+```django
+{% for code, label in categories %}
+  <a href="{% url 'main:filter_category' code %}">{{ label }}</a>
+{% endfor %}
+```
+
+### 3. Product Card & Empty State
+
+* Card dibuat responsive (grid) dengan badge kategori, status (Featured / Bestseller / Trending / Available), preview teks, dan tombol Edit/Delete.
+* Jika `products_list` kosong, tampilkan gambar + pesan "Belum ada produk terdaftar".
+
+### 4. Form Styling
+
+* File CSS kustom menampung kelas `.form-style` untuk input, textarea, select, dan checkbox.
+* Fokus input menggunakan ring glow, checkbox kustom.
+
+Contoh CSS (potongan):
+
+```css
+.form-style input, .form-style textarea, .form-style select { border:2px solid #d1d5db; padding:.5rem }
+.form-style input:focus, .form-style textarea:focus { border-color:#0ea5e9; box-shadow:0 0 0 3px rgba(14,165,233,0.2) }
+```
+
+### 5. Mobile Hamburger
+
+* JS sederhana toggle `.hidden` pada `.mobile-menu`.
+* Desktop menggunakan `hidden md:flex` dan mobile menggunakan `md:hidden` utility Tailwind.
+
+### 6. Keamanan UI
+
+* Tombol **Edit** / **Delete** hanya terlihat bila `product.user == request.user`.
+* Untuk safety, bila menginginkan lebih ketat, bisa tambah pemeriksaan ownership di `edit_product` dan `delete_product` (mis. 403 jika bukan owner).
+
+---
+
+## Jawaban pertanyaan teoritis
+
+### 1) Urutan prioritas (specificity) CSS selector
+
+Prioritas (dari tinggi → rendah, disederhanakan):
+
+1. `!important` (override semua kecuali inline `!important` yang lebih spesifik)
+2. Inline style (mis: `<div style="...">`) — specificity tinggi
+3. ID selector (`#id`) — nilai specificity: 0,1,0,0
+4. Class / attribute / pseudo-class (`.class`, `[attr]`, `:hover`) — 0,0,1,0
+5. Element / pseudo-element (`div`, `p`, `::after`) — 0,0,0,1
+6. Urutan dalam file CSS (jika specificity sama, yang terakhir ditulis menang).
+
+**Contoh**: `#nav a.active` (ID + element) lebih kuat dari `.nav a.active` (class).
+
+### 2) Mengapa responsive design penting?
+
+* Pengguna mengakses aplikasi dari berbagai ukuran layar (HP, tablet, laptop, desktop). Responsive design memastikan UI tetap usable & readable.
+* **Keuntungan**: meningkatkan user experience, SEO (mobile-friendly ranking), mempertahankan konversi pada e-commerce.
+* **Contoh aplikasi responsive**: Google Search, Twitter, Instagram (webnya menyesuaikan ukuran perangkat).
+* **Contoh yang tidak responsive**: situs-situs lama atau beberapa portal berbasis web pemerintah yang menampilkan versi desktop di layar kecil tanpa penyesuaian — menyebabkan scroll horizontal, teks kecil, tombol susah ditekan. (Halaman login SIAK-NG)
+   Tampilan halaman tidak responsive :
+   ![alt text](<academic.ui.ac.id_main_Authentication_(iPhone 14 Pro Max).png>)
+   
+### 3) Perbedaan margin, border, padding
+
+Box model (dari luar ke dalam): `margin` → `border` → `padding` → `content`.
+
+* **Margin**: ruang di luar border; memisahkan elemen dari elemen lain.
+* **Border**: garis di sekitar padding+content; bisa diberi warna, ketebalan, dan gaya.
+* **Padding**: ruang di dalam border; memisahkan content dari border.
+
+Contoh:
+   
+```css
+.box {
+  margin: 16px;    /* jarak antar elemen */
+  border: 2px solid #ccc; /* garis tepi */
+  padding: 12px;   /* jarak antara isi dan border */
+}
+```
+
+### 4) Flexbox vs Grid
+
+* **Flexbox**: layout 1-dimensi (baris atau kolom). Ideal untuk header, navbar, card alignment, center horizontally/vertically.
+
+  * Properti penting: `display: flex`, `flex-direction`, `justify-content`, `align-items`, `gap`, `flex-wrap`.
+* **Grid**: layout 2-dimensi (baris + kolom). Ideal untuk layout konten kompleks seperti halaman, gallery, dashboard.
+
+  * Properti penting: `display: grid`, `grid-template-columns`, `grid-template-rows`, `gap`, `grid-area`.
+
+**Kapan pakai apa**: gunakan Flexbox untuk komponen linear (mis. tombol di bar); gunakan Grid untuk grid/halaman dengan area kompleks.
+
+### 5) Langkah implementasi (step-by-step)
+
+Berikut alur yang saya lakukan untuk menyelesaikan checklist :
+
+1. **Menambahkan link scripts css & tailwind**
+2. **Model**: pastikan `Product` memiliki field kategori (enum), thumbnail, harga, stock, sold, view.
+3. **Routing**: menambahkan route `category/<str:category>/` dan rute CRUD (add, edit, delete, detail).
+4. **Views**:
+
+   * `show_main(request, category=None)` — handle semua kondisi (all / by category / by owner).
+   * `show_product` — ambil produk, panggil `increment_views()`.
+   * `add_product`, `edit_product`, `delete_product` — mengunakan `ProductForm` dan `get_object_or_404`.
+5. **Templates**:
+
+   * Implementasikan navbar dengan loop `categories` agar otomatis.
+   * Buat `main.html` grid responsive; tiap item memakai card dengan badge.
+   * Buat `add_product.html` / `edit_product.html` berdasarkan `.form-style` CSS.
+   * Menambahkan empty-state (gambar + teks) bila `products_list` kosong.
+6. **Styling**:
+
+   * Menggunakan Tailwind untuk utility + CSS kustom (`.form-style`) untuk konsistensi.
+   * Menambahkan hover effect pada card (shadow + image scale).
+7. **Interaktivitas**:
+
+   * Menambahkan JS kecil untuk toggle mobile menu.
+   * Menambahkan konfirmasi JS untuk delete (opsional).
+
+---
+
+
 ## Penutup
 
 README ini dibuat agar direktif tugas dapat dipahami oleh teman, asisten doesen dan dosen yang menilai. 
