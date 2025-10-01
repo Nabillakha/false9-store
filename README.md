@@ -606,12 +606,71 @@ Prioritas (dari tinggi → rendah, disederhanakan):
 
 ### 2) Mengapa responsive design penting?
 
-* Pengguna mengakses aplikasi dari berbagai ukuran layar (HP, tablet, laptop, desktop). Responsive design memastikan UI tetap usable & readable.
-* **Keuntungan**: meningkatkan user experience, SEO (mobile-friendly ranking), mempertahankan konversi pada e-commerce.
-* **Contoh aplikasi responsive**: Google Search, Twitter, Instagram (webnya menyesuaikan ukuran perangkat).
-* **Contoh yang tidak responsive**: situs-situs lama atau beberapa portal berbasis web pemerintah yang menampilkan versi desktop di layar kecil tanpa penyesuaian — menyebabkan scroll horizontal, teks kecil, tombol susah ditekan. (Halaman login SIAK-NG)
-   Tampilan halaman tidak responsive :
-   ![alt text](<academic.ui.ac.id_main_Authentication_(iPhone 14 Pro Max).png>)
+## Responsive Design pada Website
+
+### 2) Mengapa Responsive Design Penting?
+- Pengguna mengakses aplikasi dari berbagai ukuran layar (HP, tablet, laptop, desktop).  
+- **Responsive design** memastikan UI tetap *usable* & *readable*.  
+
+#### Keuntungan:
+- ✅ Meningkatkan **user experience**.  
+- ✅ Mendukung **SEO** (mobile-friendly ranking di Google).  
+- ✅ Mempertahankan **konversi** pada e-commerce karena tampilan mudah digunakan di berbagai perangkat.  
+
+---
+
+### Contoh Aplikasi Responsif
+# Pentingnya Responsive Design dalam Pengembangan Aplikasi Web
+
+## 1. Mengapa Responsive Design Penting?
+Responsive design menjadi konsep penting karena:
+- **Akses multi-perangkat**: Pengguna mengakses dari berbagai perangkat (HP, tablet, laptop, desktop) dengan ukuran layar berbeda.
+- **Meningkatkan pengalaman pengguna (UX)**: Tampilan tetap rapi, teks terbaca jelas, navigasi mudah di semua perangkat.
+- **SEO (Search Engine Optimization)**: Google memprioritaskan situs yang mobile-friendly.
+- **Efektivitas bisnis**: Desain responsif meningkatkan kenyamanan sehingga pengguna lebih betah, yang berpengaruh pada konversi.
+
+---
+
+## 2. Contoh Aplikasi yang Sudah Responsif: Instagram Web
+Instagram Web disebut **responsif** karena tampilannya dapat menyesuaikan dengan berbagai ukuran layar, baik laptop, tablet, maupun smartphone.
+
+**Teknis Responsif Instagram:**
+1. **Media Queries CSS**  
+   - Desktop: timeline di tengah + sidebar saran teman di kanan.  
+   - Mobile: sidebar hilang, hanya menampilkan feed.  
+2. **Flexible Layout (Flexbox & Grid)**  
+   - Profil desktop: grid 3 kolom.  
+   - Profil mobile: grid bisa berubah jadi 2 atau 1 kolom.  
+3. **Fluid Images & Media**  
+   - Foto/video menggunakan `max-width: 100%` agar tetap proporsional.  
+4. **Viewport Meta Tag**  
+   ```html
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+Hasilnya: pengalaman pengguna tetap nyaman tanpa perlu aplikasi terpisah.
+
+## 3. Contoh Aplikasi yang Belum Responsif: SIAK-NG
+
+SIAK-NG (portal akademik) merupakan contoh aplikasi tidak responsif.
+Masalah yang terjadi:
+Layout dibuat dengan lebar tetap (1184px).
+Saat dibuka di smartphone:
+Teks kecil dan sulit dibaca.
+Muncul scroll horizontal.
+Tombol-tombol sulit ditekan.
+Contoh Tampilan Tidak Responsif:
+![alt text](<academic.ui.ac.id_main_Authentication_(iPhone 14 Pro Max).png>)
+
+Penyebab: tidak adanya media queries dan penggunaan ukuran tetap, sehingga tidak bisa menyesuaikan dengan ukuran layar berbeda.
+
+## 4. Kesimpulan
+Responsive design sangat penting agar aplikasi web:
+Bisa diakses dengan nyaman di berbagai perangkat.
+Memberikan pengalaman pengguna yang konsisten.
+Mendukung performa bisnis dan SEO.
+
+Contoh sudah responsif: Instagram Web → nyaman dipakai di desktop maupun mobile.
+Contoh belum responsif: SIAK-NG → tampilan desktop dipaksakan di mobile sehingga sulit digunakan.
+
    
 ### 3) Perbedaan margin, border, padding
 
