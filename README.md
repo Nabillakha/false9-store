@@ -589,7 +589,7 @@ Contoh CSS (potongan):
 
 ---
 
-## Jawaban pertanyaan teoritis
+## Jawaban pertanyaan
 
 ### 1) Urutan prioritas (specificity) CSS selector
 
@@ -604,9 +604,6 @@ Prioritas (dari tinggi → rendah, disederhanakan):
 
 **Contoh**: `#nav a.active` (ID + element) lebih kuat dari `.nav a.active` (class).
 
-### 2) Mengapa responsive design penting?
-
-## Responsive Design pada Website
 
 ### 2) Mengapa Responsive Design Penting?
 - Pengguna mengakses aplikasi dari berbagai ukuran layar (HP, tablet, laptop, desktop).  
@@ -620,9 +617,9 @@ Prioritas (dari tinggi → rendah, disederhanakan):
 ---
 
 ### Contoh Aplikasi Responsif
-# Pentingnya Responsive Design dalam Pengembangan Aplikasi Web
+#### Pentingnya Responsive Design dalam Pengembangan Aplikasi Web
 
-## 1. Mengapa Responsive Design Penting?
+#### 1. Mengapa Responsive Design Penting?
 Responsive design menjadi konsep penting karena:
 - **Akses multi-perangkat**: Pengguna mengakses dari berbagai perangkat (HP, tablet, laptop, desktop) dengan ukuran layar berbeda.
 - **Meningkatkan pengalaman pengguna (UX)**: Tampilan tetap rapi, teks terbaca jelas, navigasi mudah di semua perangkat.
@@ -631,7 +628,7 @@ Responsive design menjadi konsep penting karena:
 
 ---
 
-## 2. Contoh Aplikasi yang Sudah Responsif: Instagram Web
+#### 2. Contoh Aplikasi yang Sudah Responsif: Instagram Web
 Instagram Web disebut **responsif** karena tampilannya dapat menyesuaikan dengan berbagai ukuran layar, baik laptop, tablet, maupun smartphone.
 
 **Teknis Responsif Instagram:**
@@ -648,7 +645,7 @@ Instagram Web disebut **responsif** karena tampilannya dapat menyesuaikan dengan
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 Hasilnya: pengalaman pengguna tetap nyaman tanpa perlu aplikasi terpisah.
 
-## 3. Contoh Aplikasi yang Belum Responsif: SIAK-NG
+#### 3. Contoh Aplikasi yang Belum Responsif: SIAK-NG
 
 SIAK-NG (portal akademik) merupakan contoh aplikasi tidak responsif.
 Masalah yang terjadi:
@@ -658,11 +655,12 @@ Teks kecil dan sulit dibaca.
 Muncul scroll horizontal.
 Tombol-tombol sulit ditekan.
 Contoh Tampilan Tidak Responsif:
+![c:\Users\Alya\Downloads\academic.ui.ac.id_main_Authentication_(iPad Mini).png](<academic.ui.ac.id_main_Authentication_(iPad Mini).png>)
 ![alt text](<academic.ui.ac.id_main_Authentication_(iPhone 14 Pro Max).png>)
 
 Penyebab: tidak adanya media queries dan penggunaan ukuran tetap, sehingga tidak bisa menyesuaikan dengan ukuran layar berbeda.
 
-## 4. Kesimpulan
+#### 4. Kesimpulan
 Responsive design sangat penting agar aplikasi web:
 Bisa diakses dengan nyaman di berbagai perangkat.
 Memberikan pengalaman pengguna yang konsisten.
