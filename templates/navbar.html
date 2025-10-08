@@ -15,12 +15,12 @@
         <a href="#" 
           onclick="showModal()" 
           class="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-          Add Product (AJAX)
+          Add Product
         </a>
          
       
 
-        <!-- Category Buttons -->
+        <!-- Category Buttons
         <a href="{% url 'main:show_main' %}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">All</a>
         {% for code, label in categories %}
           <a href="{% url 'main:filter_category' code %}" 
@@ -28,7 +28,7 @@
             {{ label }}
           </a>
         {% endfor %}
-      </div>
+      </div> -->
       
       <!-- Desktop User Section -->
       <div class="hidden md:flex items-center space-x-6">
@@ -78,13 +78,13 @@
           Add Product (AJAX)
         </a>
 
-        <!-- Category Buttons (Mobile) -->
+        <!-- Category Buttons (Mobile)
         {% for value, label in categories %}
           <a href="{% url 'main:filter_category' value %}" 
              class="block text-gray-600 hover:text-green-600 font-medium py-3 transition-colors">
             {{ label }}
           </a>
-        {% endfor %}
+        {% endfor %} -->
       </div>
       
       <!-- Mobile User Section -->

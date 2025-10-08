@@ -18,16 +18,28 @@
       <p class="text-gray-600">Stay updated with the latest football product</p>
     </div>
 
-    <!--Tombol Refresh -->
-      <button id="refreshButton" 
-        class="mt-4 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+    <div class="flex flex-wrap items-center gap-4 mt-4 mb-4">
+      <!--Tombol Refresh -->
+        <button id="refreshButton" 
+          class="mt-4 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0L4 14m16 2v5h-.582m0 0a8.001 8.001 0 01-15.356-2" />
+          </svg>
+          Refresh Product
+        </button>
+      <!-- Tombol Add Product -->
+      <button 
+        onclick="showModal()" 
+        class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0L4 14m16 2v5h-.582m0 0a8.001 8.001 0 01-15.356-2" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M12 4v16m8-8H4" />
         </svg>
-        Refresh Product
+        Add Product
       </button>
     </div>
+    
 
     <!-- Filter Section -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
@@ -79,7 +91,7 @@
       <p class="text-gray-500 mb-6">Be the first to share football product with the community.</p>
       <a href="#" 
         onclick="showModal()"  class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
-        Add Product AJAX
+        Add Product 
       </a>
     </div>
   </div>
@@ -148,6 +160,10 @@ function displayPageSection({ showLoading = false, showError = false, showEmpty 
   
   if (showGrid) {
     productGridContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+    loadingSpinner.classList.add('hidden');
+  }
+  if (showEmpty || showError) {
+    loadingSpinner.classList.add('hidden'); // <--- pastikan loading dimatikan
   }
 }
 
@@ -254,7 +270,9 @@ function buildProductCardElement(product) {
 
       <!-- Actions -->
       <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
-        <a href="${detailLink}" class="text-green-600 hover:text-green-700 font-medium text-sm transition-colors">View Details</a>
+        <a href="${detailLink}" 
+          onclick="loadingSpinner.classList.add('hidden');" 
+          class="text-green-600 hover:text-green-700 font-medium text-sm transition-colors">View Details</a>
         ${editDeleteButtons}
       </div>
     </div>
@@ -287,6 +305,7 @@ function filterAndDisplayProducts() {
     renderAllProductCards(filteredProducts);
     displayPageSection({ showGrid: true });
   }
+  loadingSpinner.classList.add('hidden');
 }
 
 // FETCH PRODUCTS FROM SERVER
@@ -421,6 +440,19 @@ document.addEventListener('DOMContentLoaded', () => {
     return cookieValue;
   }
 });
+document.querySelectorAll('.view-details').forEach(link => {
+  link.addEventListener('click', async (e) => {
+    e.preventDefault(); // cegah full page reload
+    loadingSpinner.classList.add('hidden'); // hide spinner
+    const url = link.href;
+
+    // Fetch detail product jika perlu
+    const response = await fetch(url);
+    const html = await response.text();
+    document.body.innerHTML = html; // contoh: replace page content
+  });
+});
+
 
 </script>
 {% endblock content %}
