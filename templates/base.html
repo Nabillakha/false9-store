@@ -12,6 +12,16 @@
 </head>
 
 <body>
-    {% block content %} {% endblock content %}
+    {% block content %} 
+    {% endblock content %}
+    {% include 'modal.html' %}
+    {% include 'toast.html' %}
 </body>
 </html>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('logout') === '1') {
+    showLogoutToast();
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+</script>

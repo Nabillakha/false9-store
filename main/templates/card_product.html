@@ -20,22 +20,22 @@
     <div class="absolute top-3 right-3 flex flex-col space-y-1">
       {% if product.is_featured %}
         <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-yellow-100 text-yellow-800 shadow-sm">
-          ⭐ Featured
+          Featured
         </span>
       {% endif %}
       {% if product.is_product_bestseller %}
         <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-purple-100 text-purple-800 shadow-sm">
-          🏆 Bestseller
+          Bestseller
         </span>
       {% endif %}
       {% if product.is_product_is_trending %}
         <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-red-100 text-red-800 shadow-sm">
-          🔥 Trending
+          Trending
         </span>
       {% endif %}
       {% if product.is_product_available %}
         <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-blue-100 text-blue-800 shadow-sm">
-          ✅ Available
+          Available
         </span>
       {% endif %}
     </div>

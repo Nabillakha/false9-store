@@ -5,9 +5,9 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-50">
   <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md form-style">
     <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
-    <form method="POST" class="space-y-6">
-      {% csrf_token %}
 
+    <form id="loginForm" class="space-y-6">
+      {% csrf_token %}
       <div>
         <label for="username">Username</label>
         <input id="username" name="username" type="text" placeholder="Enter your username" required>
@@ -30,4 +30,37 @@
     </p>
   </div>
 </div>
+
+<script >
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("{% url 'main:login_ajax' %}", {
+        method: "POST",
+        headers: { "X-CSRFToken": formData.get("csrfmiddlewaretoken") },
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        //alert("Login successful! Redirecting...");
+        setTimeout(() => {
+        window.location.href = "{% url 'main:show_main' %}";
+        }, 1500);
+        showLoginToast(true);
+      } else {
+        showLoginToast(false);
+        //alert("❌ " + data.error);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred during login.");
+    }
+  });
+</script>
 {% endblock %}

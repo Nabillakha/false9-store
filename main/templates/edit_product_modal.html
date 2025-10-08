@@ -1,0 +1,194 @@
+<!-- Edit Product Modal -->
+<div id="editModal" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div id="editModalContent" class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 max-h-screen overflow-y-auto transition-all duration-200 ease-in-out opacity-0 scale-95">
+
+    <!-- Modal header -->
+    <div class="flex items-center justify-between p-4 border-b">
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900">
+          Edit Product
+        </h3>
+        <p class="text-sm text-gray-600 mt-1">Update your product details below</p>
+      </div>
+      <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" onclick="hideEditModal()">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+    </div>
+
+    <!-- Modal body -->
+    <div class="px-6 py-4 space-y-6 form-style">
+      <form id="editProductForm">
+        <input type="hidden" id="edit_id" name="id">
+
+        <!-- Name -->
+        <div class="mb-4">
+          <label for="edit_name" class="block text-sm font-medium text-gray-700">Product Name</label>
+          <input type="text" id="edit_name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+          <label for="edit_description" class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea id="edit_description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required></textarea>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-4">
+          <label for="edit_price" class="block text-sm font-medium text-gray-700">Price (Rp)</label>
+          <input type="number" id="edit_price" name="price" min="0" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-4">
+          <label for="edit_category" class="block text-sm font-medium text-gray-700">Category</label>
+          <select id="edit_category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+            <option value="">Choose a category</option>
+            <option value="jersey">Jersey</option>
+            <option value="boots">Football Boots</option>
+            <option value="training">Training Gear</option>
+            <option value="accessories">Accessories</option>
+            <option value="ball">Football</option>
+            <option value="lifestyle">Lifestyle</option>
+            <option value="collectibles">Collectibles</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+
+        <!-- Thumbnail -->
+        <div class="mb-4">
+          <label for="edit_thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail URL</label>
+          <input type="url" id="edit_thumbnail" name="thumbnail" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+        </div>
+
+        <!-- Stock -->
+        <div class="mb-4">
+          <label for="edit_stock" class="block text-sm font-medium text-gray-700">Stock Quantity</label>
+          <input type="number" id="edit_stock" name="stock" min="0" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+        </div>
+
+        <!-- Sold -->
+        <div class="mb-4">
+          <label for="edit_sold" class="block text-sm font-medium text-gray-700">Sold</label>
+          <input type="number" id="edit_sold" name="sold" min="0" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+        </div>
+
+        <!-- View -->
+        <div class="mb-4">
+          <label for="edit_view" class="block text-sm font-medium text-gray-700">View Count</label>
+          <input type="number" id="edit_view" name="view" min="0" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+        </div>
+
+        <!-- Featured Checkbox -->
+        <div class="mb-4">
+          <div class="flex items-center">
+            <input id="edit_is_featured" name="is_featured" type="checkbox" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded">
+            <label for="edit_is_featured" class="ml-2 text-sm font-medium text-gray-900">Featured Product</label>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal footer -->
+    <div class="flex flex-col sm:flex-row gap-4 p-6 border-t border-gray-200 rounded-b">
+      <button type="button" id="cancelEditButton" class="order-2 sm:order-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors text-center" onclick="hideEditModal()">Cancel</button>
+      <button type="submit" id="submitEditProduct" form="editProductForm" class="order-1 sm:order-2 flex-1 bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">Update Product</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Show edit modal and fill with data
+  function showEditModal(product) {
+    const modal = document.getElementById('editModal');
+    const modalContent = document.getElementById('editModalContent');
+
+    document.getElementById('edit_id').value = product.id;
+    document.getElementById('edit_name').value = product.name;
+    document.getElementById('edit_description').value = product.description;
+    document.getElementById('edit_price').value = product.price;
+    document.getElementById('edit_category').value = product.category;
+    document.getElementById('edit_thumbnail').value = product.thumbnail;
+    document.getElementById('edit_stock').value = product.stock;
+    document.getElementById('edit_sold').value = product.sold;
+    document.getElementById('edit_view').value = product.view;
+    document.getElementById('edit_is_featured').checked = product.is_featured;
+
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modalContent.classList.remove('opacity-0', 'scale-95');
+      modalContent.classList.add('opacity-100', 'scale-100');
+    }, 50);
+  }
+
+  // Hide modal with animation
+  function hideEditModal() {
+    const modal = document.getElementById('editModal');
+    const modalContent = document.getElementById('editModalContent');
+    modalContent.classList.remove('opacity-100', 'scale-100');
+    modalContent.classList.add('opacity-0', 'scale-95');
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 150);
+  }
+
+  // Handle update product
+  async function updateProduct() {
+    const form = document.querySelector('#editProductForm');
+    const productId = document.getElementById('edit_id').value;
+
+    const response = await fetch(
+        `{% url 'main:edit_product_ajax' '00000000-0000-0000-0000-000000000000' %}`
+        .replace('00000000-0000-0000-0000-000000000000', productId),
+        {
+        method: "POST",
+        body: new FormData(form),
+        }
+    );
+
+    if (response.ok) {
+        const res = await response.json();
+        const updatedProduct = {
+            id: productId,
+            name: form.name.value,
+            description: form.description.value,
+            price: Number(form.price.value),
+            category: form.category.value,
+            thumbnail: form.thumbnail.value,
+            stock: Number(form.stock.value),
+            sold: Number(form.sold.value),
+            view: Number(form.view.value),
+            is_featured: form.is_featured.checked,
+            user_id: CURRENT_USER_ID
+        };
+
+        // Update di state utama
+        const index = allProductData.findIndex(p => p.id === productId);
+        if (index !== -1) allProductData[index] = updatedProduct;
+
+        // Ganti card lama dengan yang baru
+        const card = document.querySelector(`[onclick*='"id":"${productId}"']`)?.closest('article');
+        if (card) {
+            const newCard = buildProductCardElement(updatedProduct);
+            card.replaceWith(newCard);
+        }
+
+        hideEditModal();
+        showEditProductToast();
+        //showToast('Product updated successfully!', '', 'success');
+    } else {
+        //showToast('Failed to update product!', '', 'error');
+        showEditProductToast(false);
+    }
+
+    return false;
+    }
+
+
+  document.getElementById("editProductForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    updateProduct();
+  });
+</script>

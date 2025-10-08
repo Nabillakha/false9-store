@@ -5,9 +5,9 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-50">
   <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md form-style">
     <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Register</h2>
-    <form method="POST" class="space-y-6">
-      {% csrf_token %}
 
+    <form id="registerForm" class="space-y-6">
+      {% csrf_token %}
       {{ form.as_p }}
 
       <button type="submit"
@@ -22,4 +22,38 @@
     </p>
   </div>
 </div>
+
+<script>
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("{% url 'main:register_ajax' %}", {
+        method: "POST",
+        headers: { "X-CSRFToken": formData.get("csrfmiddlewaretoken") },
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        //alert("Account created successfully! Redirecting to login...");
+        showRegisterToast();
+        setTimeout(() => {
+        window.location.href = "{% url 'main:login' %}";
+        }, 1500);
+        
+      } else {
+        showRegisterToast(false);
+        //alert("⚠️ " + data.error);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred during registration.");
+    }
+  });
+</script>
 {% endblock %}
